@@ -1,4 +1,4 @@
-package kzmake.uuid7s
+package com.github.kzmake.uuid7s
 
 object Sequence {
   private var pre: Long = -1L

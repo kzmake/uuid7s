@@ -1,4 +1,4 @@
-package kzmake.uuid7s
+package com.github.kzmake.uuid7s
 
 object Hex {
   def valueOf(bytes: Array[Byte]): String = bytes.map("%02x".format(_)).mkString

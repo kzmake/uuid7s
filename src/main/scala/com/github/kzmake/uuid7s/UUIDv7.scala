@@ -1,4 +1,4 @@
-package kzmake.uuid7s
+package com.github.kzmake.uuid7s
 
 import java.nio.ByteBuffer
 import java.security.SecureRandom
