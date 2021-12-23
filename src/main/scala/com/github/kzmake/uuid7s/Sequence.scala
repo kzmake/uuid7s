@@ -5,7 +5,10 @@ object Sequence {
   private var seq: Long = 0L
 
   def get(now: Long): Long = {
-    if (now == pre) {
+    // - pre より now が低い場合(同期タイミングによって)
+    // - pre と now が同じ場合
+    // に seq を単調増加する
+    if (now <= pre) {
       seq += 1
     } else {
       seq = 0
