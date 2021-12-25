@@ -1,6 +1,29 @@
 import Settings._
 
-ThisBuild / version                    := "0.1.0"
+ThisBuild / version              := "0.1.0"
+ThisBuild / organization         := "io.github.kzmake"
+ThisBuild / organizationName     := "uuid7s"
+ThisBuild / organizationHomepage := Some(url("https://github.com/kzmake"))
+ThisBuild / versionScheme        := Some("semver-spec")
+ThisBuild / scmInfo := Some(ScmInfo(url("https://github.com/kzmake/uuid7s"), "scm:git@github.com:kzmake/uuid7s.git"))
+ThisBuild / developers := List(
+  Developer(
+    id = "kzmake",
+    name = "Kazuki Iwata",
+    email = "kzmake.i3a@gmail.com",
+    url = url("https://github.com/kzmake")
+  )
+)
+ThisBuild / description          := "UUID version 7 in Scala."
+ThisBuild / licenses             := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
+ThisBuild / homepage             := Some(url("https://github.com/kzmake/uuid7s"))
+ThisBuild / pomIncludeRepository := { _ => false }
+ThisBuild / publishTo := {
+  val nexus = "https://s01.oss.sonatype.org/"
+  if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
+  else Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+ThisBuild / publishMavenStyle          := true
 ThisBuild / scalaVersion               := "2.13.6"
 ThisBuild / semanticdbEnabled          := true
 ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value)
