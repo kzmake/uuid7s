@@ -25,4 +25,4 @@ lazy val benchmark = (project in file("./benchmark"))
   .enablePlugins(JmhPlugin)
   .dependsOn(root)
 
-addCommandAlias("benchmark", ";project benchmark ;Jmh / compile ;Jmh / run -i 1 -wi 1 -f1 -t1")
+addCommandAlias("benchmark", ";project benchmark ;Jmh / compile ;Jmh / run -i 3 -wi 3 -f1 -t1")
