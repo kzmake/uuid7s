@@ -3,40 +3,44 @@ package com.github.kzmake.uuid7s
 import java.security.SecureRandom
 import scala.util.{Random, Try}
 
-final case class UUID(juuid: java.util.UUID) {
+final case class UUID(self: java.util.UUID) {
   def timestamp: Long       = uxts
   def timestampMillis: Long = uxts * 1000 + msec
 
-  private def up: Long   = juuid.getMostSignificantBits
-  private def down: Long = juuid.getLeastSignificantBits
+  private def up: Long   = self.getMostSignificantBits
+  private def down: Long = self.getLeastSignificantBits
 
   def uxts: Long     = (up >>> UUID.uxtsO) & UUID.uxtsM
   def msec: Long     = (up >>> UUID.msecO) & UUID.msecM
-  def version: Int   = juuid.version()
+  def version: Int   = self.version()
   def sequence: Long = (up >>> UUID.seqO) & UUID.seqM
-  def variant: Int   = juuid.variant()
+  def variant: Int   = self.variant()
   def random: Long   = (down >>> UUID.randO) & UUID.randM
 
-  def compare(that: UUID): Int  = juuid.compareTo(that.juuid)
-  override def hashCode: Int    = juuid.hashCode
-  override def toString: String = juuid.toString
+  def compare(that: UUID): Int  = self.compareTo(that.self)
+  override def hashCode: Int    = self.hashCode
+  override def toString: String = self.toString
 }
 
 object UUID {
 
-  //  0                   1                   2                   3
-  //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-  // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  // |                            unixts                             |
-  // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  // |unixts |         msec          |  ver  |          seq          |
-  // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  // |var|                         rand                              |
-  // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  // |                             rand                              |
-  // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
   /** Generate UUID(version 7).
+    *
+    * <pre>
+    *   UUIDv7 Field and Bit Layout - Millisecond Precision
+    *   0                   1                   2                   3
+    *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    *   |                            unixts                             |
+    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    *   |unixts |         msec          |  ver  |          seq          |
+    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    *   |var|                         rand                              |
+    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    *   |                             rand                              |
+    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    * </pre>
+    * 
     * {{{
     * // 061c3289-2240-7000-9be2-ff62684af0f
     * val uuid = UUID.generate().toString
@@ -79,19 +83,19 @@ object UUID {
     () => r.nextLong()
   }
 
-  val uxtsM: Long = 0xfffffffffL
-  val msecM: Long = 0xfffL
-  val verM: Long  = 0xfL
-  val seqM: Long  = 0xfffL
-  val varM: Long  = 0x3L
-  val randM: Long = 0x3fffffffffffffffL
+  private[uuid7s] val uxtsM: Long = 0xfffffffffL
+  private[uuid7s] val msecM: Long = 0xfffL
+  private[uuid7s] val verM: Long  = 0xfL
+  private[uuid7s] val seqM: Long  = 0xfffL
+  private[uuid7s] val varM: Long  = 0x3L
+  private[uuid7s] val randM: Long = 0x3fffffffffffffffL
 
-  val uxtsO: Int = (msecM.toBinaryString + verM.toBinaryString + seqM.toBinaryString).length // 28 bits
-  val msecO: Int = (verM.toBinaryString + seqM.toBinaryString).length                        // 16 bits
-  val verO: Int  = seqM.toBinaryString.length                                                // 12 bits
-  val seqO: Int  = 0
-  val varO: Int  = randM.toBinaryString.length                                               // 62 bits
-  val randO: Int = 0
+  private[uuid7s] val uxtsO: Int = (msecM.toBinaryString + verM.toBinaryString + seqM.toBinaryString).length // 28 bits
+  private[uuid7s] val msecO: Int = (verM.toBinaryString + seqM.toBinaryString).length                        // 16 bits
+  private[uuid7s] val verO: Int  = seqM.toBinaryString.length                                                // 12 bits
+  private[uuid7s] val seqO: Int  = 0
+  private[uuid7s] val varO: Int  = randM.toBinaryString.length                                               // 62 bits
+  private[uuid7s] val randO: Int = 0
 
   val version: Long = 7 & verM
   val variant: Long = 2 & varM // RFC4122
