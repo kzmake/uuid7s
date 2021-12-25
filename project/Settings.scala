@@ -32,4 +32,13 @@ object Settings {
       ScalaTest.core % Test
     )
   )
+  val benchmarkSettings: Def.SettingsDefinition = Seq(
+    publish / skip := true,
+    libraryDependencies ++= Seq(
+      UXID.sulky,
+      UXID.petitviolet,
+      UXID.airframe,
+      UXID.chatwork
+    )
+  )
 }
