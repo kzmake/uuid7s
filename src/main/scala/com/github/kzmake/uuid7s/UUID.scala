@@ -1,34 +1,28 @@
 package com.github.kzmake.uuid7s
 
-import java.nio.ByteBuffer
 import java.security.SecureRandom
 import scala.util.{Random, Try}
 
-final case class UUIDv7(bytes: Array[Byte]) {
+final case class UUID(juuid: java.util.UUID) {
   def timestamp: Long       = uxts
   def timestampMillis: Long = uxts * 1000 + msec
 
-  private def up: Long   = BigInt(bytes.slice(0, 8)).toLong
-  private def down: Long = BigInt(bytes.slice(8, 16)).toLong
+  private def up: Long   = juuid.getMostSignificantBits
+  private def down: Long = juuid.getLeastSignificantBits
 
-  lazy val uxts: Long     = (up >>> UUIDv7.uxtsO) & UUIDv7.uxtsM
-  lazy val msec: Long     = (up >>> UUIDv7.msecO) & UUIDv7.msecM
-  lazy val version: Long  = (up >>> UUIDv7.verO) & UUIDv7.verM
-  lazy val sequence: Long = (up >>> UUIDv7.seqM) & UUIDv7.seqM
-  lazy val variant: Long  = (down >>> UUIDv7.varO) & UUIDv7.varM
-  lazy val random: Long   = (down >>> UUIDv7.randO) & UUIDv7.randM
+  def uxts: Long     = (up >>> UUID.uxtsO) & UUID.uxtsM
+  def msec: Long     = (up >>> UUID.msecO) & UUID.msecM
+  def version: Int   = juuid.version()
+  def sequence: Long = (up >>> UUID.seqO) & UUID.seqM
+  def variant: Int   = juuid.variant()
+  def random: Long   = (down >>> UUID.randO) & UUID.randM
 
-  /** @return
-    *   The UUID string ex: 061c30e5-5382-7000-b0ac-0fda4e2eb748
-    */
-  override def toString: String = Hex.valueOf(bytes.slice(0, 4)) +
-    "-" + Hex.valueOf(bytes.slice(4, 6)) +
-    "-" + Hex.valueOf(bytes.slice(6, 8)) +
-    "-" + Hex.valueOf(bytes.slice(8, 10)) +
-    "-" + Hex.valueOf(bytes.slice(10, 16))
+  def compare(that: UUID): Int  = juuid.compareTo(that.juuid)
+  override def hashCode: Int    = juuid.hashCode
+  override def toString: String = juuid.toString
 }
 
-object UUIDv7 {
+object UUID {
 
   //  0                   1                   2                   3
   //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -42,48 +36,44 @@ object UUIDv7 {
   // |                             rand                              |
   // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-  /** Generate UUID v7.
+  /** Generate UUID(version 7).
     * {{{
     * // 061c3289-2240-7000-9be2-ff62684af0f
-    * val uuid = UUIDv7.generate().toString
+    * val uuid = UUID.generate().toString
     *
     * // 00000000-0000-7000-8000-000000000000
-    * val min = UUIDv7.generate(() => 0L, () => 0L).toString
+    * val min = UUID.generate(() => 0L, _ => 0L, () => 0L).toString
     * // ffffffff-f3e7-7000-bfff-ffffffffffff
-    * val max = UUIDv7.generate(() => 68719476735999L, () => 4611686018427387903L).toString
+    * val max = UUID.generate(() => 68719476735999L, _ => 4095L, () => 4611686018427387903L).toString
     * }}}
     *
     * @return
-    *   Generated UUID v7
+    *   Generated UUID(version 7)
     */
   def generate(
-      tsFn: () => Long = UUIDv7.defaultTimestampFn,
-      randFn: () => Long = UUIDv7.defaultRandomFn
-  ): UUIDv7 = {
+      tsFn: () => Long = UUID.defaultTimestampFn,
+      seqFn: Long => Long = defaultSequenceFn,
+      randFn: () => Long = UUID.defaultRandomFn
+  ): UUID = {
     val ts: Long = tsFn()
 
     val uxts: Long = (ts / 1000) & uxtsM // [0 68719476735] (1970-01-01 00:00:00 ~ 4147-08-20 07:32:15)
     val msec: Long = (ts % 1000) & msecM //[0 4095]
-    val seq: Long  = Sequence.get(ts) & seqM // [0 4095]
+    val seq: Long  = seqFn(ts) & seqM // [0 4095]
     val rand: Long = randFn() & randM // [0 4611686018427387903]
 
     val up: Long   = (uxts << uxtsO) | (msec << msecO) | (version << verO) | seq
     val down: Long = (variant << varO) | rand
 
-    UUIDv7(
-      ByteBuffer.allocate(8).putLong(up).array()
-        ++ ByteBuffer.allocate(8).putLong(down).array()
-    )
+    UUID(new java.util.UUID(up, down))
   }
 
-  def parse(uuidv7: String): Try[UUIDv7] = Try {
-    val hex = uuidv7.replaceAll("-", "").toLowerCase
-    require(hex.length == 32, s"invalid uuid: $uuidv7")
-
-    UUIDv7(Hex.toBytes(hex))
+  def parse(uuid: String): Try[UUID] = Try {
+    UUID(java.util.UUID.fromString(uuid))
   }
 
-  val defaultTimestampFn: () => Long = () => System.currentTimeMillis()
+  val defaultTimestampFn: () => Long  = () => System.currentTimeMillis()
+  val defaultSequenceFn: Long => Long = ts => Sequence.get(ts)
   val defaultRandomFn: () => Long = {
     val r: Random = new Random(new SecureRandom())
     () => r.nextLong()

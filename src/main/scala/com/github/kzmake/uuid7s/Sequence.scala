@@ -4,10 +4,14 @@ object Sequence {
   private var pre: Long = -1L
   private var seq: Long = 0L
 
-  def get(now: Long): Long = {
-    // - pre より now が低い場合(同期タイミングによって)
-    // - pre と now が同じ場合
-    // に seq を単調増加する
+  private[uuid7s] def reset(): Unit = {
+    pre = -1L
+  }
+
+  private[uuid7s] def get(now: Long): Long = {
+    // - pre より now が(同期タイミングなどによって)小さい
+    // - pre と now が等しい
+    // 場合に seq を単調増加する
     if (now <= pre) {
       seq += 1
     } else {
