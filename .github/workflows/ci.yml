@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  schedule:
+    - cron: "0 * * * *"
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [zulu@8, zulu@11, zulu@17]
+        scala: [2.11.12, 2.12.15, 2.13.6]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: olafurpg/setup-scala@v13
+        with:
+          java-version: ${{ matrix.jdk }}
+      - run: sbt ++${{ matrix.scala }} +clean +update +compile
+      - run: sbt ++${{ matrix.scala }} test
