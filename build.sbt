@@ -1,6 +1,6 @@
 import Settings._
 
-ThisBuild / version              := "0.1.0"
+ThisBuild / version              := "0.1.1"
 ThisBuild / organization         := "io.github.kzmake"
 ThisBuild / organizationName     := "kzmake"
 ThisBuild / organizationHomepage := Some(url("https://github.com/kzmake"))

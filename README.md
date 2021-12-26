@@ -1,4 +1,29 @@
 # uuid7s
+
+Experimental implementation of the UUID version 7 in Scala. **This is personal project.**
+
+## Usage
+
+```bash
+$ amm
+@ import $ivy.`io.github.kzmake::uuid7s:0.1.1`
+@ import io.github.kzmake.uuid7s.UUID
+
+@ (1 to 10).map(_ => UUID.generate().toString)
+res: IndexedSeq[String] = Vector(
+  "061c8046-f151-7000-ba5c-3c953d538347",
+  "061c8046-f151-7001-867a-56c7f5084c1d",
+  "061c8046-f151-7002-a68c-61367b526e5e",
+  "061c8046-f152-7000-8f5f-5e6b704fb1d1",
+  "061c8046-f152-7001-8c82-50ea10dc7229",
+  "061c8046-f152-7002-b74a-366670d09d08",
+  "061c8046-f152-7003-8ce5-f74d82bac15e",
+  "061c8046-f152-7004-b822-baed58895a9e",
+  "061c8046-f152-7005-a266-46e729bc6a4e",
+  "061c8046-f152-7006-ada8-1e5b8b30c32e"
+)
+```
+
 ## Benchmark
 
 ```bash
