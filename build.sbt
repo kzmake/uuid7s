@@ -15,7 +15,6 @@ ThisBuild / developers := List(
 ThisBuild / description                := "UUID version 7 in Scala."
 ThisBuild / licenses                   := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
 ThisBuild / homepage                   := Some(url("https://github.com/kzmake/uuid7s"))
-ThisBuild / pomIncludeRepository       := { _ => false }
 ThisBuild / scalaVersion               := "2.13.6"
 ThisBuild / semanticdbEnabled          := true
 ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value)
@@ -23,7 +22,7 @@ ThisBuild / semanticdbVersion          := scalafixSemanticdb.revision // only re
 ThisBuild / scalacOptions ++= Seq(
   "-unchecked",
   "-deprecation",
-  "-Wunused:imports" // Scala 2.x only, required by `RemoveUnused`
+  // "-Wunused:imports" // Scala 2.x only, required by `RemoveUnused`
 )
 
 sonatypeCredentialHost := "s01.oss.sonatype.org"
