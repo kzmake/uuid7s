@@ -1,0 +1,21 @@
+name: Release
+on:
+  push:
+    branches: [master, main]
+    tags: ["*"]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Publish CLI Docker image
+        uses: olafurpg/setup-scala@v13
+        run: sbt "cli / Docker / publish"

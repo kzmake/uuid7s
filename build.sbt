@@ -44,12 +44,12 @@ lazy val benchmark = (project in file("./benchmark"))
 
 lazy val cli = (project in file("./cli"))
   .settings(
-    name                        := "uuid7s-cli",
-    version                     := "latest",
-    Docker / packageName        := "uuid7s",
-    Docker / dockerRepository   := Some("ghcr.io/kzmake"),
-    Docker / maintainer         := "kzmake <kamake.i3a@gmail.com>",
-    Docker / dockerExposedPorts := List(50051)
+    name                           := "uuid7s-cli",
+    version                        := "latest",
+    Docker / packageName           := "uuid7s",
+    Docker / dockerRepository      := Some("ghcr.io/kzmake"),
+    Docker / maintainer            := "kzmake <kamake.i3a@gmail.com>",
+    Docker / dockerExposedUdpPorts := List(0)
   )
   .enablePlugins(JavaAppPackaging)
   .settings(coreSettings, cliSettings)
