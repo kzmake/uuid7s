@@ -3,7 +3,6 @@ import sbt._
 
 object Settings {
   val coreSettings: Def.SettingsDefinition = Seq(
-    crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.6"),
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
@@ -33,6 +32,10 @@ object Settings {
       ScalaTest.core % Test
     )
   )
+  val libSettings: Def.SettingsDefinition = Seq(
+    publish / skip     := false,
+    crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.6")
+  )
   val benchmarkSettings: Def.SettingsDefinition = Seq(
     publish / skip := true,
     libraryDependencies ++= Seq(
@@ -40,6 +43,12 @@ object Settings {
       UXID.petitviolet,
       UXID.airframe,
       UXID.chatwork
+    )
+  )
+  val cliSettings: Def.SettingsDefinition = Seq(
+    publish / skip := true,
+    libraryDependencies ++= Seq(
+      Scallop.core
     )
   )
 }

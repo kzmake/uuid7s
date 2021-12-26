@@ -21,7 +21,7 @@ ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaV
 ThisBuild / semanticdbVersion          := scalafixSemanticdb.revision // only required for Scala 2.x
 ThisBuild / scalacOptions ++= Seq(
   "-unchecked",
-  "-deprecation",
+  "-deprecation"
   // "-Wunused:imports" // Scala 2.x only, required by `RemoveUnused`
 )
 
@@ -32,7 +32,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "uuid7s"
   )
-  .settings(coreSettings)
+  .settings(coreSettings, libSettings)
 
 lazy val benchmark = (project in file("./benchmark"))
   .settings(
@@ -40,6 +40,19 @@ lazy val benchmark = (project in file("./benchmark"))
   )
   .settings(coreSettings, benchmarkSettings)
   .enablePlugins(JmhPlugin)
+  .dependsOn(root)
+
+lazy val cli = (project in file("./cli"))
+  .settings(
+    name                        := "uuid7s-cli",
+    version                     := "latest",
+    Docker / packageName        := "uuid7s",
+    Docker / dockerRepository   := Some("ghcr.io/kzmake"),
+    Docker / maintainer         := "kzmake <kamake.i3a@gmail.com>",
+    Docker / dockerExposedPorts := List(50051)
+  )
+  .enablePlugins(JavaAppPackaging)
+  .settings(coreSettings, cliSettings)
   .dependsOn(root)
 
 addCommandAlias("benchmark", ";project benchmark ;Jmh / compile ;Jmh / run -i 3 -wi 3 -f1 -t1")
