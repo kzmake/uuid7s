@@ -45,6 +45,18 @@ $ amm -s -c "import \$ivy.`io.github.kzmake::uuid7s:latest.integration`; import 
 061c8046-f151-7000-ba5c-3c953d538347
 ```
 
+## CLI
+
+```bash
+$ docker run -it --rm ghcr.io/kzmake/uuid7s -n 3
+061c87c0-1006-7000-a49b-f706d0b7e98e
+061c87c0-100f-7000-8233-15823e030f80
+061c87c0-100f-7001-92c5-c3a5e22f7220
+
+$ docker run -it --rm ghcr.io/kzmake/uuid7s 061c87c0-1006-7000-a49b-f706d0b7e98e
+2021-12-26T14:28:17.006Z
+```
+
 ## UUIDv7 Field and Bit Layout
 ### Millisecond Precision
 
