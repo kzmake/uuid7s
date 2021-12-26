@@ -1,4 +1,4 @@
-package com.github.kzmake.uuid7s
+package io.github.kzmake.uuid7s
 
 import org.scalatest.BeforeAndAfter
 import org.scalatest.freespec._

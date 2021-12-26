@@ -1,4 +1,4 @@
-package com.github.kzmake.uuid7s.benchmark
+package io.github.kzmake.uuid7s.benchmark
 
 import org.openjdk.jmh.annotations._
 import java.util.concurrent.TimeUnit
@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 class UXIDBenchmark {
   @Benchmark
   def kzmake_UUID(): Unit = {
-    com.github.kzmake.uuid7s.UUID.generate().toString
+    io.github.kzmake.uuid7s.UUID.generate().toString
   }
 
   @Benchmark

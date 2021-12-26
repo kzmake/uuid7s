@@ -1,4 +1,4 @@
-package com.github.kzmake.uuid7s
+package io.github.kzmake.uuid7s
 
 import java.security.SecureRandom
 import scala.util.{Random, Try}
@@ -26,21 +26,6 @@ object UUID {
 
   /** Generate UUID(version 7).
     *
-    * <pre>
-    *   UUIDv7 Field and Bit Layout - Millisecond Precision
-    *   0                   1                   2                   3
-    *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    *   |                            unixts                             |
-    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    *   |unixts |         msec          |  ver  |          seq          |
-    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    *   |var|                         rand                              |
-    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    *   |                             rand                              |
-    *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    * </pre>
-    * 
     * {{{
     * // 061c3289-2240-7000-9be2-ff62684af0f
     * val uuid = UUID.generate().toString

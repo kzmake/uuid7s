@@ -2,7 +2,7 @@ import Settings._
 
 ThisBuild / version              := "0.1.0"
 ThisBuild / organization         := "io.github.kzmake"
-ThisBuild / organizationName     := "uuid7s"
+ThisBuild / organizationName     := "kzmake"
 ThisBuild / organizationHomepage := Some(url("https://github.com/kzmake"))
 ThisBuild / versionScheme        := Some("semver-spec")
 ThisBuild / scmInfo := Some(ScmInfo(url("https://github.com/kzmake/uuid7s"), "scm:git@github.com:kzmake/uuid7s.git"))
