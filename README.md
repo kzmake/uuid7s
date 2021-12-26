@@ -2,11 +2,27 @@
 
 Experimental implementation of the UUID version 7 in Scala. **This is personal project.**
 
+- [New UUID Formats](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-01.html#name-uuidv7-layout-and-bit-order)
+
+## Installation
+
+```scala
+libraryDependencies += "io.github.kzmake" %% "uuid7s" % "..."
+```
+
 ## Usage
+
+```scala
+val s = UUID.generate().toString
+
+println(s) // 061c8046-f151-7000-ba5c-3c953d538347
+```
+
+### Using Ammonite REPL
 
 ```bash
 $ amm
-@ import $ivy.`io.github.kzmake::uuid7s:0.1.1`
+@ import $ivy.`io.github.kzmake::uuid7s:latest.integration`
 @ import io.github.kzmake.uuid7s.UUID
 
 @ (1 to 10).map(_ => UUID.generate().toString)
@@ -22,6 +38,28 @@ res: IndexedSeq[String] = Vector(
   "061c8046-f152-7005-a266-46e729bc6a4e",
   "061c8046-f152-7006-ada8-1e5b8b30c32e"
 )
+```
+
+```bash
+$ amm -s -c "import \$ivy.`io.github.kzmake::uuid7s:latest.integration`; import io.github.kzmake.uuid7s.UUID; println(UUID.generate())"
+061c8046-f151-7000-ba5c-3c953d538347
+```
+
+## UUIDv7 Field and Bit Layout
+### Millisecond Precision
+
+```
+     0                   1                   2                   3
+     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |                            unixts                             |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |unixts |         msec          |  ver  |          seq          |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |var|                         rand                              |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |                             rand                              |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
 ## Benchmark
