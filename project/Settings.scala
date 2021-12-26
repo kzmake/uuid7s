@@ -3,6 +3,7 @@ import sbt._
 
 object Settings {
   val coreSettings: Def.SettingsDefinition = Seq(
+    crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.6"),
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",

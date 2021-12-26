@@ -1,10 +1,8 @@
 import Settings._
 
-ThisBuild / version              := "0.1.1"
 ThisBuild / organization         := "io.github.kzmake"
-ThisBuild / organizationName     := "kzmake"
 ThisBuild / organizationHomepage := Some(url("https://github.com/kzmake"))
-ThisBuild / versionScheme        := Some("semver-spec")
+ThisBuild / versionScheme        := Some("early-semver")
 ThisBuild / scmInfo := Some(ScmInfo(url("https://github.com/kzmake/uuid7s"), "scm:git@github.com:kzmake/uuid7s.git"))
 ThisBuild / developers := List(
   Developer(
@@ -14,16 +12,10 @@ ThisBuild / developers := List(
     url = url("https://github.com/kzmake")
   )
 )
-ThisBuild / description          := "UUID version 7 in Scala."
-ThisBuild / licenses             := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
-ThisBuild / homepage             := Some(url("https://github.com/kzmake/uuid7s"))
-ThisBuild / pomIncludeRepository := { _ => false }
-ThisBuild / publishTo := {
-  val nexus = "https://s01.oss.sonatype.org/"
-  if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
-  else Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
-ThisBuild / publishMavenStyle          := true
+ThisBuild / description                := "UUID version 7 in Scala."
+ThisBuild / licenses                   := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
+ThisBuild / homepage                   := Some(url("https://github.com/kzmake/uuid7s"))
+ThisBuild / pomIncludeRepository       := { _ => false }
 ThisBuild / scalaVersion               := "2.13.6"
 ThisBuild / semanticdbEnabled          := true
 ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value)
@@ -33,6 +25,9 @@ ThisBuild / scalacOptions ++= Seq(
   "-deprecation",
   "-Wunused:imports" // Scala 2.x only, required by `RemoveUnused`
 )
+
+sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
 
 lazy val root = (project in file("."))
   .settings(
