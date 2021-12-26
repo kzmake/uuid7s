@@ -4,6 +4,7 @@
     ".bsp/**": true,
     ".idea/**": true,
     ".metals/**": true,
-    "**/target/**": true
+    "**/target/**": true,
+    "**/target": true
   }
 }
