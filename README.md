@@ -1,5 +1,7 @@
 # uuid7s
 
+[![uuid7s Scala version support](https://index.scala-lang.org/kzmake/uuid7s/uuid7s/latest-by-scala-version.svg)](https://index.scala-lang.org/kzmake/uuid7s/uuid7s) [![CI](https://github.com/kzmake/uuid7s/actions/workflows/ci.yml/badge.svg)](https://github.com/kzmake/uuid7s/actions/workflows/ci.yml)
+
 Experimental implementation of the UUID version 7 in Scala. **This is personal project.**
 
 - [New UUID Formats](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-01.html#name-uuidv7-layout-and-bit-order)
