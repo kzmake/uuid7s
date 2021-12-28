@@ -20,6 +20,10 @@ val s = UUID.generate().toString
 println(s) // 061c8046-f151-7000-ba5c-3c953d538347
 ```
 
+### Using Scastie
+
+[Try online with Scastie](https://scastie.scala-lang.org/kzmake/VSnFlx97R42uyDgEPmfZ6Q)
+
 ### Using Ammonite REPL
 
 ```bash
