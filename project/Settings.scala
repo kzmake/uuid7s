@@ -2,19 +2,24 @@ import sbt.Keys._
 import sbt._
 
 object Settings {
+  val scalaVersion2_11 = "2.11.12"
+  val scalaVersion2_12 = "2.12.15"
+  val scalaVersion2_13 = "2.13.6"
+  val scalaVersion3    = "3.1.0"
+
   val coreSettings: Def.SettingsDefinition = Seq(
     scalacOptions ++= Seq(
       "-feature",
-      "-deprecation",
-      "-unchecked",
+      // "-deprecation",
+      // "-unchecked",
       "-encoding",
       "UTF-8",
       "-Xfatal-warnings",
-      "-language:_",
+      "-language:_"
       // Warn if an argument list is modified to match the receiver
       // "-Ywarn-adapted-args",
       // Warn when dead code is identified.
-      "-Ywarn-dead-code",
+      // "-Ywarn-dead-code",
       // Warn about inaccessible types in method signatures.
       // "-Ywarn-inaccessible",
       // Warn when a type argument is inferred to be `Any`.
@@ -24,7 +29,7 @@ object Settings {
       // Warn when nullary methods return Unit.
       // "-Ywarn-nullary-unit",
       // Warn when numerics are widened.
-      "-Ywarn-numeric-widen"
+      // "-Ywarn-numeric-widen"
       // Warn when imports are unused.
       // "-Ywarn-unused-import"
     ),
@@ -34,7 +39,7 @@ object Settings {
   )
   val libSettings: Def.SettingsDefinition = Seq(
     publish / skip     := false,
-    crossScalaVersions := Seq("2.11.12", "2.12.15", "2.13.6")
+    crossScalaVersions := Seq(scalaVersion2_11, scalaVersion2_12, scalaVersion2_13, scalaVersion3)
   )
   val benchmarkSettings: Def.SettingsDefinition = Seq(
     publish / skip := true,

@@ -12,13 +12,12 @@ ThisBuild / developers := List(
     url = url("https://github.com/kzmake")
   )
 )
-ThisBuild / description                := "UUID version 7 in Scala."
-ThisBuild / licenses                   := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
-ThisBuild / homepage                   := Some(url("https://github.com/kzmake/uuid7s"))
-ThisBuild / scalaVersion               := "2.13.6"
-ThisBuild / semanticdbEnabled          := true
-ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value)
-ThisBuild / semanticdbVersion          := scalafixSemanticdb.revision // only required for Scala 2.x
+ThisBuild / description       := "UUID version 7 in Scala."
+ThisBuild / licenses          := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
+ThisBuild / homepage          := Some(url("https://github.com/kzmake/uuid7s"))
+ThisBuild / scalaVersion      := "2.13.6"
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision // only required for Scala 2.x
 ThisBuild / scalacOptions ++= Seq(
   "-unchecked",
   "-deprecation"
