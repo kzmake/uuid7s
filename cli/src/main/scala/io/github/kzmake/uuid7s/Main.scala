@@ -16,7 +16,7 @@ case class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
 }
 
 object Main extends App {
-  val conf = new Conf(args.toSeq)
+  val conf = Conf(args.toSeq)
   conf.uuidv7.toOption match {
     case None => (1 to conf.n.apply()).foreach(_ => println(UUID.generate().toString))
     case Some(v) =>
