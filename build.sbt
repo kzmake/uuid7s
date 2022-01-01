@@ -12,32 +12,33 @@ ThisBuild / developers := List(
     url = url("https://github.com/kzmake")
   )
 )
-ThisBuild / description       := "UUID version 7 in Scala."
-ThisBuild / licenses          := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
-ThisBuild / homepage          := Some(url("https://github.com/kzmake/uuid7s"))
-ThisBuild / scalaVersion      := "2.13.6"
-ThisBuild / semanticdbEnabled := true
-ThisBuild / semanticdbVersion := scalafixSemanticdb.revision // only required for Scala 2.x
-ThisBuild / scalacOptions ++= Seq(
-  "-unchecked",
-  "-deprecation"
-  // "-Wunused:imports" // Scala 2.x only, required by `RemoveUnused`
-)
+ThisBuild / description := "UUID version 7 in Scala."
+ThisBuild / licenses    := List("MIT License" -> new URL("https://opensource.org/licenses/MIT"))
+ThisBuild / homepage    := Some(url("https://github.com/kzmake/uuid7s"))
 
 sonatypeCredentialHost := "s01.oss.sonatype.org"
 sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "uuid7s"
+    scalaVersion      := "2.13.6",
+    semanticdbEnabled := true,
+    semanticdbVersion := scalafixSemanticdb.revision, // only required for Scala 2.x
+    scalacOptions ++= Seq(
+      "-unchecked",
+      "-deprecation"
+      // "-Wunused:imports" // Scala 2.x only, required by `RemoveUnused`
+    )
   )
   .settings(coreSettings, libSettings)
+  .settings(jvmSettings)
 
 lazy val benchmark = (project in file("./benchmark"))
   .settings(
     name := "uuid7s-benchmark"
   )
   .settings(coreSettings, benchmarkSettings)
+  .settings(jvmSettings)
   .enablePlugins(JmhPlugin)
   .dependsOn(root)
 
@@ -52,6 +53,7 @@ lazy val cli = (project in file("./cli"))
   )
   .enablePlugins(JavaAppPackaging)
   .settings(coreSettings, cliSettings)
+  .settings(jvmSettings)
   .dependsOn(root)
 
 addCommandAlias("benchmark", ";project benchmark ;Jmh / compile ;Jmh / run -i 3 -wi 3 -f1 -t1")
